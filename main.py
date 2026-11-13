@@ -1,5 +1,6 @@
 import tkinter as tk
 import winsound
+import csv
 
 root = tk.Tk()
 root.title("LexiGrid")
@@ -7,15 +8,17 @@ root.geometry("800x600")
 root.configure(bg="#20231e")
 
 
+questions = []
 
-#replace questions with database
-questions = [
-    ("What is the capital of France?", "Paris"),
-    ("What is 2 + 2?", "4"),
-    ("What is the largest ocean on Earth?", "Pacific Ocean"),
-    ("Who wrote Romeo and Juliet?", "Shakespeare"),
-    ("What is the chemical symbol for water?", "H2O")
-]
+f = open("data.csv", "r", newline="", encoding="utf-8")
+r = csv.reader(f)
+
+for word in r:
+    if len(word) == 2:
+        questions.append((word[0].strip(), word[1].strip()))
+
+f.close()
+
 
 current = 0
 score = 0
@@ -48,7 +51,8 @@ def submit():
         feedback.config(text=f"Final score: {score}")
         entry.config(state="disabled")
         button.config(state="disabled")
-        win_image = tk.PhotoImage(file="assets/images (2).png")
+
+        win_image = tk.PhotoImage(file="assets/lose.png")
         image_label = tk.Label(root, image=win_image, bg="#20231e")
         image_label.image = win_image
         image_label.pack(pady=8)
@@ -58,8 +62,8 @@ def submit():
         feedback.config(text=f"Final score: {score}")
         entry.config(state="disabled")
         button.config(state="disabled")
-        win_image = tk.PhotoImage(file="assets/images.png")
 
+        win_image = tk.PhotoImage(file="assets/images.png")
         image_label = tk.Label(root, image=win_image, bg="#20231e")
         image_label.image = win_image
         image_label.pack(pady=8)
@@ -99,7 +103,7 @@ button = tk.Button(
 )
 button.pack(pady=10)
 
-entry.bind("<Return>", submit)
+entry.bind("<Return>", lambda event: submit())
 
 feedback = tk.Label(
     root, text="Enter your answer",
