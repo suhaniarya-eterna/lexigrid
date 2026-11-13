@@ -63,7 +63,7 @@ def submit():
         entry.config(state="disabled")
         button.config(state="disabled")
 
-        win_image = tk.PhotoImage(file="assets/images.png")
+        win_image = tk.PhotoImage(file="assets/win.png")
         image_label = tk.Label(root, image=win_image, bg="#20231e")
         image_label.image = win_image
         image_label.pack(pady=8)
